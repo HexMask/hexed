@@ -39,15 +39,15 @@ void main() {
     float hexMask = 1.0 - smoothstep(0.955, 1.0, hexBoundary);
     float visible = cellReveal * hexMask;
 
-    // The dark outline is nearly invisible away from the front; it exists to
-    // articulate the mask without becoming a decorative honeycomb overlay.
+    // A hairline white contour makes each small cell readable while it is part
+    // of the mask. It is multiplied by fieldActive, so no outline remains once
+    // the window has fully materialized.
     float hexLine = smoothstep(0.90, 0.985, hexBoundary);
     float edgeDistance = abs(threshold - uProgress);
     float fieldActive = 1.0 - smoothstep(0.990, 1.0, uProgress);
     visible = mix(1.0, visible, fieldActive);
-    float darkOutline = hexLine * visible * (1.0 - smoothstep(0.004, 0.080, edgeDistance)) * 0.42 * fieldActive;
-    vec3 etchedDarkGreen = vec3(0.008, 0.145, 0.050);
-    color.rgb = mix(color.rgb, etchedDarkGreen * color.a, darkOutline);
+    float whiteOutline = hexLine * visible * fieldActive * 0.82;
+    color.rgb = mix(color.rgb, vec3(color.a), whiteOutline);
 
     // Approximately 1–2 px on typical application windows: a thin frontier only.
     float advancingEdge = 1.0 - smoothstep(0.0015, 0.005, edgeDistance);

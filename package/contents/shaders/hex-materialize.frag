@@ -37,9 +37,8 @@ void main() {
     float edgeDistance = abs(threshold - uProgress);
     float fieldActive = 1.0 - smoothstep(0.990, 1.0, uProgress);
     visible = mix(1.0, visible, fieldActive);
-    float darkOutline = hexLine * visible * (1.0 - smoothstep(0.004, 0.080, edgeDistance)) * 0.42 * fieldActive;
-    vec3 etchedDarkGreen = vec3(0.008, 0.145, 0.050);
-    color.rgb = mix(color.rgb, etchedDarkGreen * color.a, darkOutline);
+    float whiteOutline = hexLine * visible * fieldActive * 0.82;
+    color.rgb = mix(color.rgb, vec3(color.a), whiteOutline);
     float advancingEdge = 1.0 - smoothstep(0.0015, 0.005, edgeDistance);
     float glow = advancingEdge * visible * uGlowStrength * fieldActive;
     vec3 etchedGreen = vec3(0.0549, 0.9098, 0.2549);
