@@ -7,8 +7,10 @@ Etched-green hex outlines appear only at the advancing frontier, so the window s
 to form from them; the field then resolves cleanly with no persistent grid.
 
 When the pointer is over a window as it opens, the field expands from that pointer
-position; otherwise it expands from center. The same origin is retained for the reversed
-close, drawing the window back into the field.
+position; otherwise it expands from center. Fullscreen windows always use their true
+center, avoiding Wayland scale differences between window geometry and its sampled
+texture. The same origin is retained for the reversed close, drawing the window back
+into the field.
 
 The close path uses KWin's retained deleted-window animation support. Its first shader
 frame is deliberately the unchanged window (`uProgress = 1`), so it hands off from the

@@ -43,6 +43,12 @@ class EtchedHexMaterializeEffect {
     }
 
     static revealOrigin(window) {
+        // KWin can sample a fullscreen surface at a different scale than its
+        // logical geometry on Wayland. A logical pointer offset would then
+        // bias the field, so fullscreen windows always use texture center.
+        if (window.fullScreen) {
+            return [0.0, 0.0];
+        }
         const cursor = effects.cursorPos;
         const withinWindow = cursor.x >= window.x && cursor.x <= window.x + window.width &&
             cursor.y >= window.y && cursor.y <= window.y + window.height;
