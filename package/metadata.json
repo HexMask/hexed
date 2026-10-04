@@ -10,9 +10,9 @@
     "Description": "Materializes normal windows through a restrained expanding field of Etched-green hex cells.",
     "EnabledByDefault": false,
     "Icon": "preferences-system-windows-effect-fade",
-    "Id": "etched-hex-materialize",
+    "Id": "green-hex",
     "License": "GPL-3.0-or-later",
-    "Name": "Etched Hex Materialize",
+    "Name": "Green Hex",
     "ServiceTypes": [
       "KWin/Effect"
     ],
@@ -20,7 +20,7 @@
   },
   "X-KDE-ConfigModule": "kcm_kwin4_genericscripted",
   "X-KDE-Ordering": 60,
-  "X-KDE-PluginKeyword": "etched-hex-materialize",
+  "X-KDE-PluginKeyword": "green-hex",
   "X-KWin-Exclusive-Category": "toplevel-open-close-animation",
   "X-Plasma-API": "javascript",
   "X-Plasma-MainScript": "code/main.js"

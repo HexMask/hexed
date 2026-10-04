@@ -10,7 +10,7 @@ const CLASS_BLACKLIST = [
     'spectacle org.kde.spectacle'
 ];
 
-class EtchedHexMaterializeEffect {
+class GreenHexEffect {
     constructor() {
         effect.configChanged.connect(this.loadConfig.bind(this));
         effect.animationEnded.connect(this.onAnimationEnded.bind(this));
@@ -19,7 +19,7 @@ class EtchedHexMaterializeEffect {
         effects.windowDataChanged.connect(this.onWindowDataChanged.bind(this));
 
         // Scripted effects can apply this shader directly to KWin's live window texture.
-        this.shader = effect.addFragmentShader(Effect.MapTexture, 'hex-materialize.frag');
+        this.shader = effect.addFragmentShader(Effect.MapTexture, 'green-hex.frag');
         this.loadConfig();
     }
 
@@ -60,22 +60,22 @@ class EtchedHexMaterializeEffect {
     }
 
     setRevealOrigin(window, origin) {
-        window.etchedHexOrigin = origin;
+        window.greenHexOrigin = origin;
         effect.setUniform(this.shader, 'uOrigin', origin);
     }
 
     onWindowAdded(window) {
         if (effects.hasActiveFullScreenEffect || !window.visible ||
             effect.isGrabbed(window, Effect.WindowAddedGrabRole) ||
-            !EtchedHexMaterializeEffect.shouldAnimate(window)) {
+            !GreenHexEffect.shouldAnimate(window)) {
             return;
         }
-        if (window.etchedHexCloseAnimation) {
-            cancel(window.etchedHexCloseAnimation);
-            delete window.etchedHexCloseAnimation;
+        if (window.greenHexCloseAnimation) {
+            cancel(window.greenHexCloseAnimation);
+            delete window.greenHexCloseAnimation;
         }
-        this.setRevealOrigin(window, EtchedHexMaterializeEffect.revealOrigin(window));
-        window.etchedHexOpenAnimation = animate({
+        this.setRevealOrigin(window, GreenHexEffect.revealOrigin(window));
+        window.greenHexOpenAnimation = animate({
             window: window,
             duration: this.duration,
             curve: QEasingCurve.OutCubic,
@@ -95,17 +95,17 @@ class EtchedHexMaterializeEffect {
     onWindowClosed(window) {
         if (effects.hasActiveFullScreenEffect || window.skipsCloseAnimation ||
             effect.isGrabbed(window, Effect.WindowClosedGrabRole) ||
-            !EtchedHexMaterializeEffect.shouldAnimate(window)) {
+            !GreenHexEffect.shouldAnimate(window)) {
             return;
         }
-        if (window.etchedHexOpenAnimation) {
-            cancel(window.etchedHexOpenAnimation);
-            delete window.etchedHexOpenAnimation;
+        if (window.greenHexOpenAnimation) {
+            cancel(window.greenHexOpenAnimation);
+            delete window.greenHexOpenAnimation;
         }
         // Preserve the opening origin so the close contracts into the same field.
-        this.setRevealOrigin(window, window.etchedHexOrigin ||
-            EtchedHexMaterializeEffect.revealOrigin(window));
-        window.etchedHexCloseAnimation = animate({
+        this.setRevealOrigin(window, window.greenHexOrigin ||
+            GreenHexEffect.revealOrigin(window));
+        window.greenHexCloseAnimation = animate({
             window: window,
             duration: this.duration,
             curve: QEasingCurve.InCubic,
@@ -125,26 +125,26 @@ class EtchedHexMaterializeEffect {
     }
 
     onAnimationEnded(window, animationId) {
-        if (window.etchedHexOpenAnimation === animationId) {
-            delete window.etchedHexOpenAnimation;
+        if (window.greenHexOpenAnimation === animationId) {
+            delete window.greenHexOpenAnimation;
         }
-        if (window.etchedHexCloseAnimation === animationId) {
-            delete window.etchedHexCloseAnimation;
+        if (window.greenHexCloseAnimation === animationId) {
+            delete window.greenHexCloseAnimation;
         }
     }
 
     onWindowDataChanged(window, role) {
-        if (role === Effect.WindowAddedGrabRole && window.etchedHexOpenAnimation &&
+        if (role === Effect.WindowAddedGrabRole && window.greenHexOpenAnimation &&
             effect.isGrabbed(window, role)) {
-            cancel(window.etchedHexOpenAnimation);
-            delete window.etchedHexOpenAnimation;
+            cancel(window.greenHexOpenAnimation);
+            delete window.greenHexOpenAnimation;
         }
-        if (role === Effect.WindowClosedGrabRole && window.etchedHexCloseAnimation &&
+        if (role === Effect.WindowClosedGrabRole && window.greenHexCloseAnimation &&
             effect.isGrabbed(window, role)) {
-            cancel(window.etchedHexCloseAnimation);
-            delete window.etchedHexCloseAnimation;
+            cancel(window.greenHexCloseAnimation);
+            delete window.greenHexCloseAnimation;
         }
     }
 }
 
-new EtchedHexMaterializeEffect();
+new GreenHexEffect();

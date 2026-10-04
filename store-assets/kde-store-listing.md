@@ -2,7 +2,7 @@
 
 ## Name
 
-Etched Hex Materialize
+Green Hex
 
 ## Summary
 
@@ -10,7 +10,7 @@ A restrained Etched-green hex-cell materialize effect for Plasma 6 windows.
 
 ## Description
 
-Etched Hex Materialize reveals normal application windows from their center through a
+Green Hex reveals normal application windows from their center through a
 spreading field of hexagonal cells. When a window closes, the field reverses into a
 compact hex disintegration. A brief `#0ee841` edge glow keeps the Etched character
 present without turning the desktop into a noisy or high-intensity visual effect.
@@ -28,6 +28,6 @@ GPL-3.0-or-later
 
 ## Gallery preview
 
-Use `etched-hex-materialize-live-recording-loop.gif`. It is a real capture of this
+Use `green-hex-live-recording-loop.gif`. It is a real capture of this
 installed effect on the Etched desktop, converted from the supplied screen recording
 as a 1024×576 repeating GIF.

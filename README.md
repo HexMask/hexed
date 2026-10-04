@@ -1,6 +1,6 @@
-# Etched Hex Materialize
+# Green Hex
 
-Etched Hex Materialize is a Plasma 6 KWin desktop effect for the Etched theme. Normal
+Green Hex is a Plasma 6 KWin desktop effect for the Etched theme. Normal
 application windows reveal from their center through a 10 px micro-hex mask; on close,
 the field reverses. The cells are a transient reveal mask, not an overlay: fine white
 Etched-green hex outlines appear only at the advancing frontier, so the window seems
@@ -45,7 +45,7 @@ included because the KWin packaging API expects both variants.
 ```
 
 Then open **System Settings > Window Management > Desktop Effects**, search for
-**Etched Hex Materialize**, and enable it. The installer only writes this effect under
+**Green Hex**, and enable it. The installer only writes this effect under
 `~/.local/share/kwin/effects/`; it never restarts KWin or changes global configuration.
 
 ## Remove
