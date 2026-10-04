@@ -49,11 +49,11 @@ void main() {
     float edgeDistance = abs(threshold - uProgress);
     float fieldActive = 1.0 - smoothstep(0.990, 1.0, uProgress);
     visible = mix(1.0, visible, fieldActive);
-    float whiteOutline = hexLine * visible * fieldActive;
-    color.rgb = mix(color.rgb, vec3(color.a), whiteOutline);
     float advancingEdge = 1.0 - smoothstep(0.0008, 0.0028, edgeDistance);
-    float glow = advancingEdge * visible * uGlowStrength * fieldActive;
     vec3 etchedGreen = vec3(0.0549, 0.9098, 0.2549);
+    float greenOutline = hexLine * advancingEdge * visible * fieldActive;
+    color.rgb = mix(color.rgb, etchedGreen * color.a, greenOutline);
+    float glow = advancingEdge * visible * uGlowStrength * fieldActive;
     color.rgb = mix(color.rgb, etchedGreen * color.a, glow);
     gl_FragColor = vec4(color.rgb * visible, color.a * visible);
 }

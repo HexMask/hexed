@@ -53,22 +53,21 @@ void main() {
     float hexMask = smoothstep(0.018, 0.055, hex.z);
     float visible = cellReveal * hexMask;
 
-    // A hairline white contour makes each small cell readable while it is part
-    // of the mask. It is multiplied by fieldActive, so no outline remains once
-    // the window has fully materialized.
+    // The contour exists only at the advancing frontier: it is the bright
+    // Etched-green construction line from which the window appears, not a
+    // persistent grid over the newly materialized content.
     // At a 10 px cell size this yields a visibly hexagonal ~2 px perimeter,
     // rather than a sub-pixel edge that reads as ordinary pixelation.
     float hexLine = 1.0 - smoothstep(0.12, 0.30, hex.z);
     float edgeDistance = abs(threshold - uProgress);
     float fieldActive = 1.0 - smoothstep(0.990, 1.0, uProgress);
     visible = mix(1.0, visible, fieldActive);
-    float whiteOutline = hexLine * visible * fieldActive;
-    color.rgb = mix(color.rgb, vec3(color.a), whiteOutline);
-
     // Approximately 1–2 px on typical application windows: a thin frontier only.
     float advancingEdge = 1.0 - smoothstep(0.0008, 0.0028, edgeDistance);
-    float glow = advancingEdge * visible * uGlowStrength * fieldActive;
     vec3 etchedGreen = vec3(0.0549, 0.9098, 0.2549); // #0ee841
+    float greenOutline = hexLine * advancingEdge * visible * fieldActive;
+    color.rgb = mix(color.rgb, etchedGreen * color.a, greenOutline);
+    float glow = advancingEdge * visible * uGlowStrength * fieldActive;
     color.rgb = mix(color.rgb, etchedGreen * color.a, glow);
     fragColor = vec4(color.rgb * visible, color.a * visible);
 }
