@@ -1,9 +1,9 @@
 # Etched Hex Materialize
 
 Etched Hex Materialize is a Plasma 6 KWin desktop effect for the Etched theme. Normal
-application windows reveal from their center as a field of large, distinct hexagonal
-cells; on close, the field reverses. A dark Etched-green honeycomb outline defines each
-cell and the advancing edge has a restrained `#0ee841` flash.
+application windows reveal from their center as a dense field of small hexagonal cells;
+on close, the field reverses. Fine dark Etched-green outlines define the field and the
+advancing edge has a restrained `#0ee841` flash.
 
 It deliberately excludes desktop windows, panels and docks, menus, tooltips, other
 popups, screen-lock surfaces, unmanaged windows, and KWin outlines. It also opts into

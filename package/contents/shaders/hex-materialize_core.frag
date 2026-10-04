@@ -27,22 +27,25 @@ void main() {
     vec2 local = nearestHex(grid);
     vec2 cellCenter = grid - local;
 
-    // The field reaches every corner at progress 1.0. Cells turn on as whole,
-    // softly antialiased hexagons instead of noisy per-pixel dissolve fragments.
+    // The field reaches every corner at progress 1.0. Small individual cells,
+    // rather than a tiled surface, create the dense honeycomb front.
     float radial = length(cellCenter) / max(uCellDensity * 0.72, 0.001);
     float cellReveal = smoothstep(radial - 0.015, radial + 0.045, animationProgress);
     float hexBoundary = max(abs(local.y), abs(local.x) * 0.8660254 + abs(local.y) * 0.5);
     float hexMask = smoothstep(1.0, 0.90, hexBoundary);
     float visible = cellReveal * hexMask;
 
-    // A dark Etched-green honeycomb line makes the cells read as deliberate
-    // geometry, rather than as a noisy dissolve. It exists only during the effect.
-    float darkOutline = smoothstep(0.72, 0.94, hexBoundary) * visible;
-    vec3 etchedDarkGreen = vec3(0.012, 0.180, 0.070);
-    color.rgb = mix(color.rgb, etchedDarkGreen * color.a, darkOutline * 0.88);
+    // Fine dark-green outlines define cells close to the advancing edge, with
+    // a little residue behind it. This preserves the dark window architecture.
+    float hexLine = smoothstep(0.84, 0.975, hexBoundary);
+    float edgeDistance = abs(radial - animationProgress);
+    float fieldResidue = 1.0 - smoothstep(0.04, 0.34, edgeDistance);
+    float darkOutline = hexLine * visible * (0.28 + 0.72 * fieldResidue);
+    vec3 etchedDarkGreen = vec3(0.008, 0.145, 0.050);
+    color.rgb = mix(color.rgb, etchedDarkGreen * color.a, darkOutline);
 
     // A narrow #0ee841 flash follows the advancing field.
-    float advancingEdge = 1.0 - smoothstep(0.015, 0.090, abs(radial - animationProgress));
+    float advancingEdge = 1.0 - smoothstep(0.008, 0.070, edgeDistance);
     float glow = advancingEdge * visible * uGlowStrength;
     vec3 etchedGreen = vec3(0.0549, 0.9098, 0.2549); // #0ee841
     color.rgb = mix(color.rgb, etchedGreen * color.a, glow);
