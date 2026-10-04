@@ -12,11 +12,8 @@ afterglow as the formation moves outward.
 In Desktop Effects settings, **Edge color** opens a color picker for both the moving
 hex outline and its halo; it defaults to Etched green `#0ee841`.
 
-When the pointer is over a window as it opens, the field expands from that pointer
-position; otherwise it expands from center. Fullscreen windows always use their true
-center, avoiding Wayland scale differences between window geometry and its sampled
-texture. The same origin is retained for the reversed close, drawing the window back
-into the field.
+Every window opens from its true center outward. Closing reverses the same mask: the
+visible outer edges retract toward the center until the window is gone.
 
 The close path uses KWin's retained deleted-window animation support. Its first shader
 frame is deliberately the unchanged window (`uProgress = 1`), so it hands off from the

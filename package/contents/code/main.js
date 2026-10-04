@@ -28,6 +28,8 @@ class HexedEffect {
         effect.setUniform(this.shader, 'uCellSize', effect.readConfig('CellSize', 10.0));
         effect.setUniform(this.shader, 'uGlowStrength', effect.readConfig('GlowStrength', 0.72));
         effect.setUniform(this.shader, 'uEdgeColor', this.readRGBConfig('EdgeColor', '#0ee841'));
+        // The shader works in coordinates centered on the window texture.
+        effect.setUniform(this.shader, 'uOrigin', [0.0, 0.0]);
     }
 
     // KColorButton stores either #RRGGBB or #AARRGGBB. Shaders only need RGB.
@@ -54,28 +56,6 @@ class HexedEffect {
         return window.normalWindow || window.dialog;
     }
 
-    static revealOrigin(window) {
-        // KWin can sample a fullscreen surface at a different scale than its
-        // logical geometry on Wayland. A logical pointer offset would then
-        // bias the field, so fullscreen windows always use texture center.
-        if (window.fullScreen) {
-            return [0.0, 0.0];
-        }
-        const cursor = effects.cursorPos;
-        const withinWindow = cursor.x >= window.x && cursor.x <= window.x + window.width &&
-            cursor.y >= window.y && cursor.y <= window.y + window.height;
-        if (!withinWindow) {
-            return [0.0, 0.0];
-        }
-        return [cursor.x - (window.x + window.width * 0.5),
-            cursor.y - (window.y + window.height * 0.5)];
-    }
-
-    setRevealOrigin(window, origin) {
-        window.hexedOrigin = origin;
-        effect.setUniform(this.shader, 'uOrigin', origin);
-    }
-
     onWindowAdded(window) {
         if (effects.hasActiveFullScreenEffect || !window.visible ||
             effect.isGrabbed(window, Effect.WindowAddedGrabRole) ||
@@ -86,7 +66,6 @@ class HexedEffect {
             cancel(window.hexedCloseAnimation);
             delete window.hexedCloseAnimation;
         }
-        this.setRevealOrigin(window, HexedEffect.revealOrigin(window));
         window.hexedOpenAnimation = animate({
             window: window,
             duration: this.duration,
@@ -114,9 +93,6 @@ class HexedEffect {
             cancel(window.hexedOpenAnimation);
             delete window.hexedOpenAnimation;
         }
-        // Preserve the opening origin so the close contracts into the same field.
-        this.setRevealOrigin(window, window.hexedOrigin ||
-            HexedEffect.revealOrigin(window));
         window.hexedCloseAnimation = animate({
             window: window,
             duration: this.duration,
