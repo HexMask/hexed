@@ -13,6 +13,7 @@ const CLASS_BLACKLIST = [
 class EtchedHexMaterializeEffect {
     constructor() {
         effect.configChanged.connect(this.loadConfig.bind(this));
+        effect.animationEnded.connect(this.onAnimationEnded.bind(this));
         effects.windowAdded.connect(this.onWindowAdded.bind(this));
         effects.windowClosed.connect(this.onWindowClosed.bind(this));
         effects.windowDataChanged.connect(this.onWindowDataChanged.bind(this));
@@ -56,16 +57,20 @@ class EtchedHexMaterializeEffect {
             duration: this.duration,
             curve: QEasingCurve.OutCubic,
             animations: [{
-                type: Effect.Shader,
+                type: Effect.ShaderUniform,
                 fragmentShader: this.shader,
+                uniform: 'uProgress',
                 from: 0.0,
-                to: 1.0
+                to: 1.0,
+                // Explicit even though KWin defaults to it: opening windows must
+                // remain paintable if their lifecycle changes during the effect.
+                keepAlive: true
             }]
         });
     }
 
     onWindowClosed(window) {
-        if (effects.hasActiveFullScreenEffect || window.skipsCloseAnimation || !window.visible ||
+        if (effects.hasActiveFullScreenEffect || window.skipsCloseAnimation ||
             effect.isGrabbed(window, Effect.WindowClosedGrabRole) ||
             !EtchedHexMaterializeEffect.shouldAnimate(window)) {
             return;
@@ -79,12 +84,27 @@ class EtchedHexMaterializeEffect {
             duration: this.duration,
             curve: QEasingCurve.InCubic,
             animations: [{
-                type: Effect.Shader,
+                // ShaderUniform interpolates uProgress itself. Unlike Effect.Shader,
+                // it honors 1 → 0 and therefore starts the close as a normal window.
+                type: Effect.ShaderUniform,
                 fragmentShader: this.shader,
+                uniform: 'uProgress',
                 from: 1.0,
-                to: 0.0
+                to: 0.0,
+                // AnimationEffect retains the deleted window until this animation
+                // completes, avoiding a blank frame between live and closing paint.
+                keepAlive: true
             }]
         });
+    }
+
+    onAnimationEnded(window, animationId) {
+        if (window.etchedHexOpenAnimation === animationId) {
+            delete window.etchedHexOpenAnimation;
+        }
+        if (window.etchedHexCloseAnimation === animationId) {
+            delete window.etchedHexCloseAnimation;
+        }
     }
 
     onWindowDataChanged(window, role) {

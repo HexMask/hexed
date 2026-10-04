@@ -6,6 +6,10 @@ the field reverses. The cells are a transient reveal mask, not an overlay: only 
 dark-green edge and restrained `#0ee841` advancing frontier are visible before the
 window resolves cleanly.
 
+The close path uses KWin's retained deleted-window animation support. Its first shader
+frame is deliberately the unchanged window (`uProgress = 1`), so it hands off from the
+live window without a blank or pop-in frame before the mask contracts.
+
 It deliberately excludes desktop windows, panels and docks, menus, tooltips, other
 popups, screen-lock surfaces, unmanaged windows, and KWin outlines. It also opts into
 KWin's `toplevel-open-close-animation` exclusive category, so select this effect instead

@@ -5,7 +5,7 @@
 uniform sampler2D sampler;
 uniform int textureWidth;
 uniform int textureHeight;
-uniform float animationProgress;
+uniform float uProgress;
 uniform float uCellSize;
 uniform float uGlowStrength;
 
@@ -30,16 +30,18 @@ void main() {
     vec2 cellCenter = grid - local;
     float radial = length(cellCenter * uCellSize) / max(length(windowSize * 0.5), 1.0);
     float threshold = clamp(radial + (hash(cellCenter) - 0.5) * 0.035, 0.0, 1.0);
-    float cellReveal = smoothstep(threshold - 0.004, threshold + 0.004, animationProgress);
+    float cellReveal = smoothstep(threshold - 0.004, threshold + 0.004, uProgress);
     float hexBoundary = max(abs(local.y), abs(local.x) * 0.8660254 + abs(local.y) * 0.5);
     float visible = cellReveal * (1.0 - smoothstep(0.955, 1.0, hexBoundary));
     float hexLine = smoothstep(0.90, 0.985, hexBoundary);
-    float edgeDistance = abs(threshold - animationProgress);
-    float darkOutline = hexLine * visible * (1.0 - smoothstep(0.004, 0.080, edgeDistance)) * 0.42;
+    float edgeDistance = abs(threshold - uProgress);
+    float fieldActive = 1.0 - smoothstep(0.990, 1.0, uProgress);
+    visible = mix(1.0, visible, fieldActive);
+    float darkOutline = hexLine * visible * (1.0 - smoothstep(0.004, 0.080, edgeDistance)) * 0.42 * fieldActive;
     vec3 etchedDarkGreen = vec3(0.008, 0.145, 0.050);
     color.rgb = mix(color.rgb, etchedDarkGreen * color.a, darkOutline);
     float advancingEdge = 1.0 - smoothstep(0.0015, 0.005, edgeDistance);
-    float glow = advancingEdge * visible * uGlowStrength;
+    float glow = advancingEdge * visible * uGlowStrength * fieldActive;
     vec3 etchedGreen = vec3(0.0549, 0.9098, 0.2549);
     color.rgb = mix(color.rgb, etchedGreen * color.a, glow);
     gl_FragColor = vec4(color.rgb * visible, color.a * visible);
