@@ -8,7 +8,7 @@
       <default>900</default>
     </entry>
     <entry name="CellSize" type="Double">
-      <default>5.0</default>
+      <default>10.0</default>
     </entry>
     <entry name="GlowStrength" type="Double">
       <default>0.42</default>

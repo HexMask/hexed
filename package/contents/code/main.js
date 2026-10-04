@@ -24,7 +24,7 @@ class EtchedHexMaterializeEffect {
 
     loadConfig() {
         this.duration = animationTime(effect.readConfig('Duration', 900));
-        effect.setUniform(this.shader, 'uCellSize', effect.readConfig('CellSize', 5.0));
+        effect.setUniform(this.shader, 'uCellSize', effect.readConfig('CellSize', 10.0));
         effect.setUniform(this.shader, 'uGlowStrength', effect.readConfig('GlowStrength', 0.42));
     }
 
