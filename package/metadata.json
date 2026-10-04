@@ -16,7 +16,7 @@
     "ServiceTypes": [
       "KWin/Effect"
     ],
-    "Version": "1.0.0"
+    "Version": "1.0.1"
   },
   "X-KDE-ConfigModule": "kcm_kwin4_genericscripted",
   "X-KDE-Ordering": 60,

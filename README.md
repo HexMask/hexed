@@ -9,6 +9,8 @@ The default 1.8-second timing gives the formation room to read, with a controlle
 per-cell arrival variation that keeps the edge alive without turning it into glitching.
 Its green halo fades more slowly than the sharp hex outline, leaving a restrained
 afterglow as the formation moves outward.
+In Desktop Effects settings, **Edge color** opens a color picker for both the moving
+hex outline and its halo; it defaults to Etched green `#0ee841`.
 
 When the pointer is over a window as it opens, the field expands from that pointer
 position; otherwise it expands from center. Fullscreen windows always use their true

@@ -13,5 +13,8 @@
     <entry name="GlowStrength" type="Double">
       <default>0.72</default>
     </entry>
+    <entry name="EdgeColor" type="Color">
+      <default>#0ee841</default>
+    </entry>
   </group>
 </kcfg>

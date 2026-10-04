@@ -27,6 +27,18 @@ class GreenHexEffect {
         this.duration = animationTime(effect.readConfig('Duration', 1800));
         effect.setUniform(this.shader, 'uCellSize', effect.readConfig('CellSize', 10.0));
         effect.setUniform(this.shader, 'uGlowStrength', effect.readConfig('GlowStrength', 0.72));
+        effect.setUniform(this.shader, 'uEdgeColor', this.readRGBConfig('EdgeColor', '#0ee841'));
+    }
+
+    // KColorButton stores either #RRGGBB or #AARRGGBB. Shaders only need RGB.
+    readRGBConfig(key, fallback) {
+        const configured = String(effect.readConfig(key, fallback));
+        const match = /^#?([a-f\d]{6}|[a-f\d]{8})$/i.exec(configured);
+        const hex = match ? match[1] : fallback.slice(1);
+        const rgb = hex.length === 8 ? hex.slice(2) : hex;
+        return [parseInt(rgb.slice(0, 2), 16) / 255,
+            parseInt(rgb.slice(2, 4), 16) / 255,
+            parseInt(rgb.slice(4, 6), 16) / 255];
     }
 
     static shouldAnimate(window) {
