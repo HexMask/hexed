@@ -42,7 +42,7 @@ void main() {
                           max(length(vec2(-halfSize.x, halfSize.y) - uOrigin),
                               length(vec2(halfSize.x, halfSize.y) - uOrigin)));
     float radial = length(cellPosition - uOrigin) / max(maxRadius, 1.0);
-    float threshold = clamp(radial + (hash(cellCenter) - 0.5) * 0.035, 0.0, 1.0);
+    float threshold = clamp(radial + (hash(cellCenter) - 0.5) * 0.070, 0.0, 1.0);
     float cellReveal = smoothstep(threshold - 0.004, threshold + 0.004, uProgress);
     float visible = cellReveal * smoothstep(0.018, 0.055, hex.z);
     float hexLine = 1.0 - smoothstep(0.12, 0.30, hex.z);

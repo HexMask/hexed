@@ -5,6 +5,8 @@ application windows reveal from their center through a 10 px micro-hex mask; on 
 the field reverses. The cells are a transient reveal mask, not an overlay: fine white
 Etched-green hex outlines appear only at the advancing frontier, so the window seems
 to form from them; the field then resolves cleanly with no persistent grid.
+The default 1.8-second timing gives the formation room to read, with a controlled
+per-cell arrival variation that keeps the edge alive without turning it into glitching.
 
 When the pointer is over a window as it opens, the field expands from that pointer
 position; otherwise it expands from center. Fullscreen windows always use their true

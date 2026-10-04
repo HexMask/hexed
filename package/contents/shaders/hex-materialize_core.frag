@@ -48,7 +48,9 @@ void main() {
                           max(length(vec2(-halfSize.x, halfSize.y) - uOrigin),
                               length(vec2(halfSize.x, halfSize.y) - uOrigin)));
     float radial = length(cellPosition - uOrigin) / max(maxRadius, 1.0);
-    float threshold = clamp(radial + (hash(cellCenter) - 0.5) * 0.035, 0.0, 1.0);
+    // A restrained per-cell arrival offset keeps the frontier organic without
+    // breaking its center-outward direction or becoming a glitch effect.
+    float threshold = clamp(radial + (hash(cellCenter) - 0.5) * 0.070, 0.0, 1.0);
     float cellReveal = smoothstep(threshold - 0.004, threshold + 0.004, uProgress);
     float hexMask = smoothstep(0.018, 0.055, hex.z);
     float visible = cellReveal * hexMask;

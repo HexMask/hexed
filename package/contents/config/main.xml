@@ -5,13 +5,13 @@
   <kcfgfile name=""/>
   <group name="">
     <entry name="Duration" type="UInt">
-      <default>1200</default>
+      <default>1800</default>
     </entry>
     <entry name="CellSize" type="Double">
       <default>10.0</default>
     </entry>
     <entry name="GlowStrength" type="Double">
-      <default>0.42</default>
+      <default>0.72</default>
     </entry>
   </group>
 </kcfg>
