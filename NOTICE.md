@@ -1,7 +1,6 @@
-# Attribution notice
+# Copyright and attribution
 
-The `hexCell` distance-field calculation in the GLSL shaders is adapted from the
-user-provided local source at `~/Downloads/kwin6-effect-hexagon`, the Burn My Windows
-Hexagon effect by Simon Schneegans and contributors.
+Copyright 2026 David / HexMask.
 
-That source is GPL-3.0-or-later; this project is also GPL-3.0-or-later.
+Hexed is an original KWin 6 effect project and is distributed under
+GPL-3.0-or-later. Source-file SPDX headers identify the applicable copyright and license.

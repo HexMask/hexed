@@ -14,9 +14,8 @@ uniform vec2 uOrigin;
 in vec2 texcoord0;
 out vec4 fragColor;
 
-// Adapted from Burn My Windows' GPL-3.0-or-later Hexagon effect. This is a
-// proper pointy-top hex distance field: xy is the nearest cell's local point,
-// z is its normalized distance from the edge (1 at its center, 0 at its edge).
+// Pointy-top hex distance field: xy is the nearest cell's local point, z is its
+// normalized distance from the edge (1 at its center, 0 at its edge).
 vec3 hexCell(vec2 point) {
     const float edgeLength = 1.1547005; // sqrt(4 / 3)
     const vec2 repeat = vec2(3.0 * edgeLength, 2.0);
