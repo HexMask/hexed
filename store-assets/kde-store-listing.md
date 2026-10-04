@@ -28,6 +28,6 @@ GPL-3.0-or-later
 
 ## Gallery preview
 
-Use `hexed-live-recording-loop.gif`. It is a real capture of this
+Use `hexed-live-recording-loop-gallery.gif`. It is a real capture of this
 installed effect on the Etched desktop, converted from the supplied screen recording
-as a 1024×576 repeating GIF.
+as a 960×540 repeating GIF sized for the KDE Store gallery upload limit.
