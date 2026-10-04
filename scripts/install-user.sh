@@ -4,7 +4,7 @@ set -euo pipefail
 
 project_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 package_dir="$project_dir/package"
-effect_id="green-hex"
+effect_id="hexed"
 
 installed_effects=$(kpackagetool6 --type KWin/Effect --list 2>&1)
 

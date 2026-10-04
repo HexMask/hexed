@@ -10,7 +10,7 @@ const CLASS_BLACKLIST = [
     'spectacle org.kde.spectacle'
 ];
 
-class GreenHexEffect {
+class HexedEffect {
     constructor() {
         effect.configChanged.connect(this.loadConfig.bind(this));
         effect.animationEnded.connect(this.onAnimationEnded.bind(this));
@@ -19,7 +19,7 @@ class GreenHexEffect {
         effects.windowDataChanged.connect(this.onWindowDataChanged.bind(this));
 
         // Scripted effects can apply this shader directly to KWin's live window texture.
-        this.shader = effect.addFragmentShader(Effect.MapTexture, 'green-hex.frag');
+        this.shader = effect.addFragmentShader(Effect.MapTexture, 'hexed.frag');
         this.loadConfig();
     }
 
@@ -72,22 +72,22 @@ class GreenHexEffect {
     }
 
     setRevealOrigin(window, origin) {
-        window.greenHexOrigin = origin;
+        window.hexedOrigin = origin;
         effect.setUniform(this.shader, 'uOrigin', origin);
     }
 
     onWindowAdded(window) {
         if (effects.hasActiveFullScreenEffect || !window.visible ||
             effect.isGrabbed(window, Effect.WindowAddedGrabRole) ||
-            !GreenHexEffect.shouldAnimate(window)) {
+            !HexedEffect.shouldAnimate(window)) {
             return;
         }
-        if (window.greenHexCloseAnimation) {
-            cancel(window.greenHexCloseAnimation);
-            delete window.greenHexCloseAnimation;
+        if (window.hexedCloseAnimation) {
+            cancel(window.hexedCloseAnimation);
+            delete window.hexedCloseAnimation;
         }
-        this.setRevealOrigin(window, GreenHexEffect.revealOrigin(window));
-        window.greenHexOpenAnimation = animate({
+        this.setRevealOrigin(window, HexedEffect.revealOrigin(window));
+        window.hexedOpenAnimation = animate({
             window: window,
             duration: this.duration,
             curve: QEasingCurve.OutCubic,
@@ -107,17 +107,17 @@ class GreenHexEffect {
     onWindowClosed(window) {
         if (effects.hasActiveFullScreenEffect || window.skipsCloseAnimation ||
             effect.isGrabbed(window, Effect.WindowClosedGrabRole) ||
-            !GreenHexEffect.shouldAnimate(window)) {
+            !HexedEffect.shouldAnimate(window)) {
             return;
         }
-        if (window.greenHexOpenAnimation) {
-            cancel(window.greenHexOpenAnimation);
-            delete window.greenHexOpenAnimation;
+        if (window.hexedOpenAnimation) {
+            cancel(window.hexedOpenAnimation);
+            delete window.hexedOpenAnimation;
         }
         // Preserve the opening origin so the close contracts into the same field.
-        this.setRevealOrigin(window, window.greenHexOrigin ||
-            GreenHexEffect.revealOrigin(window));
-        window.greenHexCloseAnimation = animate({
+        this.setRevealOrigin(window, window.hexedOrigin ||
+            HexedEffect.revealOrigin(window));
+        window.hexedCloseAnimation = animate({
             window: window,
             duration: this.duration,
             curve: QEasingCurve.InCubic,
@@ -137,26 +137,26 @@ class GreenHexEffect {
     }
 
     onAnimationEnded(window, animationId) {
-        if (window.greenHexOpenAnimation === animationId) {
-            delete window.greenHexOpenAnimation;
+        if (window.hexedOpenAnimation === animationId) {
+            delete window.hexedOpenAnimation;
         }
-        if (window.greenHexCloseAnimation === animationId) {
-            delete window.greenHexCloseAnimation;
+        if (window.hexedCloseAnimation === animationId) {
+            delete window.hexedCloseAnimation;
         }
     }
 
     onWindowDataChanged(window, role) {
-        if (role === Effect.WindowAddedGrabRole && window.greenHexOpenAnimation &&
+        if (role === Effect.WindowAddedGrabRole && window.hexedOpenAnimation &&
             effect.isGrabbed(window, role)) {
-            cancel(window.greenHexOpenAnimation);
-            delete window.greenHexOpenAnimation;
+            cancel(window.hexedOpenAnimation);
+            delete window.hexedOpenAnimation;
         }
-        if (role === Effect.WindowClosedGrabRole && window.greenHexCloseAnimation &&
+        if (role === Effect.WindowClosedGrabRole && window.hexedCloseAnimation &&
             effect.isGrabbed(window, role)) {
-            cancel(window.greenHexCloseAnimation);
-            delete window.greenHexCloseAnimation;
+            cancel(window.hexedCloseAnimation);
+            delete window.hexedCloseAnimation;
         }
     }
 }
 
-new GreenHexEffect();
+new HexedEffect();

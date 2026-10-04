@@ -4,7 +4,7 @@ set -euo pipefail
 
 project_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 output_dir="$project_dir/dist"
-archive="$output_dir/green-hex-1.0.1.kwineffect"
+archive="$output_dir/hexed-1.0.1.kwineffect"
 
 mkdir -p "$output_dir"
 rm -f "$archive"

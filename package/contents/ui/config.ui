@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-  <class>GreenHexConfig</class>
-  <widget class="QWidget" name="GreenHexConfig">
+  <class>HexedConfig</class>
+  <widget class="QWidget" name="HexedConfig">
     <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
         <widget class="QLabel" name="edgeColorLabel">
