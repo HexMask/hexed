@@ -28,6 +28,6 @@ GPL-3.0-or-later
 
 ## Gallery preview
 
-Use `etched-hex-materialize-live-preview.gif`. It is a real capture of this
-installed effect on the Etched desktop; its closing half reverses the captured
-opening frames, matching the effect's reverse materialize behavior.
+Use `etched-hex-materialize-live-recording-loop.gif`. It is a real capture of this
+installed effect on the Etched desktop, converted from the supplied screen recording
+as a 1024×576 repeating GIF.
