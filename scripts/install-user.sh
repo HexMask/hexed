@@ -6,7 +6,9 @@ project_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 package_dir="$project_dir/package"
 effect_id="etched-hex-materialize"
 
-if kpackagetool6 --type KWin/Effect --list 2>&1 | grep -Fqx "$effect_id"; then
+installed_effects=$(kpackagetool6 --type KWin/Effect --list 2>&1)
+
+if grep -Fqx "$effect_id" <<<"$installed_effects"; then
     kpackagetool6 --type KWin/Effect --upgrade "$package_dir"
 else
     kpackagetool6 --type KWin/Effect --install "$package_dir"

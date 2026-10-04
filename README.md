@@ -6,6 +6,10 @@ the field reverses. The cells are a transient reveal mask, not an overlay: fine 
 cell outlines and a restrained `#0ee841` advancing frontier are visible only while the
 window is materializing, then it resolves cleanly.
 
+When the pointer is over a window as it opens, the field expands from that pointer
+position; otherwise it expands from center. The same origin is retained for the reversed
+close, drawing the window back into the field.
+
 The close path uses KWin's retained deleted-window animation support. Its first shader
 frame is deliberately the unchanged window (`uProgress = 1`), so it hands off from the
 live window without a blank or pop-in frame before the mask contracts.

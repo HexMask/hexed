@@ -8,6 +8,7 @@ uniform int textureHeight;
 uniform float uProgress;
 uniform float uCellSize;
 uniform float uGlowStrength;
+uniform vec2 uOrigin;
 
 varying vec2 texcoord0;
 
@@ -34,7 +35,13 @@ void main() {
     vec2 grid = (texcoord0 - vec2(0.5)) * windowSize / uCellSize;
     vec3 hex = hexCell(grid);
     vec2 cellCenter = grid - hex.xy;
-    float radial = length(cellCenter * uCellSize) / max(length(windowSize * 0.5), 1.0);
+    vec2 cellPosition = cellCenter * uCellSize;
+    vec2 halfSize = windowSize * 0.5;
+    float maxRadius = max(max(length(vec2(-halfSize.x, -halfSize.y) - uOrigin),
+                              length(vec2(halfSize.x, -halfSize.y) - uOrigin)),
+                          max(length(vec2(-halfSize.x, halfSize.y) - uOrigin),
+                              length(vec2(halfSize.x, halfSize.y) - uOrigin)));
+    float radial = length(cellPosition - uOrigin) / max(maxRadius, 1.0);
     float threshold = clamp(radial + (hash(cellCenter) - 0.5) * 0.035, 0.0, 1.0);
     float cellReveal = smoothstep(threshold - 0.004, threshold + 0.004, uProgress);
     float visible = cellReveal * smoothstep(0.018, 0.055, hex.z);
@@ -44,7 +51,7 @@ void main() {
     visible = mix(1.0, visible, fieldActive);
     float whiteOutline = hexLine * visible * fieldActive;
     color.rgb = mix(color.rgb, vec3(color.a), whiteOutline);
-    float advancingEdge = 1.0 - smoothstep(0.0015, 0.005, edgeDistance);
+    float advancingEdge = 1.0 - smoothstep(0.0008, 0.0028, edgeDistance);
     float glow = advancingEdge * visible * uGlowStrength * fieldActive;
     vec3 etchedGreen = vec3(0.0549, 0.9098, 0.2549);
     color.rgb = mix(color.rgb, etchedGreen * color.a, glow);

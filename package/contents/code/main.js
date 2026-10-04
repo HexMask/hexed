@@ -42,6 +42,22 @@ class EtchedHexMaterializeEffect {
         return window.normalWindow || window.dialog;
     }
 
+    static revealOrigin(window) {
+        const cursor = effects.cursorPos;
+        const withinWindow = cursor.x >= window.x && cursor.x <= window.x + window.width &&
+            cursor.y >= window.y && cursor.y <= window.y + window.height;
+        if (!withinWindow) {
+            return [0.0, 0.0];
+        }
+        return [cursor.x - (window.x + window.width * 0.5),
+            cursor.y - (window.y + window.height * 0.5)];
+    }
+
+    setRevealOrigin(window, origin) {
+        window.etchedHexOrigin = origin;
+        effect.setUniform(this.shader, 'uOrigin', origin);
+    }
+
     onWindowAdded(window) {
         if (effects.hasActiveFullScreenEffect || !window.visible ||
             effect.isGrabbed(window, Effect.WindowAddedGrabRole) ||
@@ -52,6 +68,7 @@ class EtchedHexMaterializeEffect {
             cancel(window.etchedHexCloseAnimation);
             delete window.etchedHexCloseAnimation;
         }
+        this.setRevealOrigin(window, EtchedHexMaterializeEffect.revealOrigin(window));
         window.etchedHexOpenAnimation = animate({
             window: window,
             duration: this.duration,
@@ -79,6 +96,9 @@ class EtchedHexMaterializeEffect {
             cancel(window.etchedHexOpenAnimation);
             delete window.etchedHexOpenAnimation;
         }
+        // Preserve the opening origin so the close contracts into the same field.
+        this.setRevealOrigin(window, window.etchedHexOrigin ||
+            EtchedHexMaterializeEffect.revealOrigin(window));
         window.etchedHexCloseAnimation = animate({
             window: window,
             duration: this.duration,
