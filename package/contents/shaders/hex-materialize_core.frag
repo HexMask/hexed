@@ -64,12 +64,13 @@ void main() {
     float edgeDistance = abs(threshold - uProgress);
     float fieldActive = 1.0 - smoothstep(0.990, 1.0, uProgress);
     visible = mix(1.0, visible, fieldActive);
-    // Approximately 1–2 px on typical application windows: a thin frontier only.
+    // Keep the line crisp, but let the glow around it decay more gradually.
     float advancingEdge = 1.0 - smoothstep(0.0008, 0.0028, edgeDistance);
     vec3 etchedGreen = vec3(0.0549, 0.9098, 0.2549); // #0ee841
     float greenOutline = hexLine * advancingEdge * visible * fieldActive;
     color.rgb = mix(color.rgb, etchedGreen * color.a, greenOutline);
-    float glow = advancingEdge * visible * uGlowStrength * fieldActive;
+    float glowFalloff = 1.0 - smoothstep(0.0015, 0.0300, edgeDistance);
+    float glow = glowFalloff * visible * uGlowStrength * fieldActive;
     color.rgb = mix(color.rgb, etchedGreen * color.a, glow);
     fragColor = vec4(color.rgb * visible, color.a * visible);
 }

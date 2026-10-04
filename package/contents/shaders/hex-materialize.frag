@@ -53,7 +53,8 @@ void main() {
     vec3 etchedGreen = vec3(0.0549, 0.9098, 0.2549);
     float greenOutline = hexLine * advancingEdge * visible * fieldActive;
     color.rgb = mix(color.rgb, etchedGreen * color.a, greenOutline);
-    float glow = advancingEdge * visible * uGlowStrength * fieldActive;
+    float glowFalloff = 1.0 - smoothstep(0.0015, 0.0300, edgeDistance);
+    float glow = glowFalloff * visible * uGlowStrength * fieldActive;
     color.rgb = mix(color.rgb, etchedGreen * color.a, glow);
     gl_FragColor = vec4(color.rgb * visible, color.a * visible);
 }
