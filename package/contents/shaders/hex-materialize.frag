@@ -28,6 +28,9 @@ void main() {
     float cellReveal = smoothstep(radial - 0.015, radial + 0.045, animationProgress);
     float hexBoundary = max(abs(local.y), abs(local.x) * 0.8660254 + abs(local.y) * 0.5);
     float visible = cellReveal * smoothstep(1.0, 0.90, hexBoundary);
+    float darkOutline = smoothstep(0.72, 0.94, hexBoundary) * visible;
+    vec3 etchedDarkGreen = vec3(0.012, 0.180, 0.070);
+    color.rgb = mix(color.rgb, etchedDarkGreen * color.a, darkOutline * 0.88);
     float advancingEdge = 1.0 - smoothstep(0.015, 0.090, abs(radial - animationProgress));
     float glow = advancingEdge * visible * uGlowStrength;
     vec3 etchedGreen = vec3(0.0549, 0.9098, 0.2549);

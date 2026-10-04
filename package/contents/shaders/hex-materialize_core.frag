@@ -35,7 +35,13 @@ void main() {
     float hexMask = smoothstep(1.0, 0.90, hexBoundary);
     float visible = cellReveal * hexMask;
 
-    // A narrow, low-intensity Etched-green flash follows the advancing field.
+    // A dark Etched-green honeycomb line makes the cells read as deliberate
+    // geometry, rather than as a noisy dissolve. It exists only during the effect.
+    float darkOutline = smoothstep(0.72, 0.94, hexBoundary) * visible;
+    vec3 etchedDarkGreen = vec3(0.012, 0.180, 0.070);
+    color.rgb = mix(color.rgb, etchedDarkGreen * color.a, darkOutline * 0.88);
+
+    // A narrow #0ee841 flash follows the advancing field.
     float advancingEdge = 1.0 - smoothstep(0.015, 0.090, abs(radial - animationProgress));
     float glow = advancingEdge * visible * uGlowStrength;
     vec3 etchedGreen = vec3(0.0549, 0.9098, 0.2549); // #0ee841

@@ -23,8 +23,8 @@ class EtchedHexMaterializeEffect {
     }
 
     loadConfig() {
-        this.duration = animationTime(effect.readConfig('Duration', 280));
-        effect.setUniform(this.shader, 'uCellDensity', effect.readConfig('CellDensity', 9.0));
+        this.duration = animationTime(effect.readConfig('Duration', 700));
+        effect.setUniform(this.shader, 'uCellDensity', effect.readConfig('CellDensity', 5.5));
         effect.setUniform(this.shader, 'uGlowStrength', effect.readConfig('GlowStrength', 0.42));
     }
 
