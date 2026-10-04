@@ -13,6 +13,9 @@
     "Id": "etched-hex-materialize",
     "License": "GPL-3.0-or-later",
     "Name": "Etched Hex Materialize",
+    "ServiceTypes": [
+      "KWin/Effect"
+    ],
     "Version": "1.0.0"
   },
   "X-KDE-ConfigModule": "kcm_kwin4_genericscripted",
