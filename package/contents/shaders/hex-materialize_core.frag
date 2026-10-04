@@ -42,11 +42,13 @@ void main() {
     // A hairline white contour makes each small cell readable while it is part
     // of the mask. It is multiplied by fieldActive, so no outline remains once
     // the window has fully materialized.
-    float hexLine = smoothstep(0.90, 0.985, hexBoundary);
+    // At a 10 px cell size this yields a visibly hexagonal ~2 px perimeter,
+    // rather than a sub-pixel edge that reads as ordinary pixelation.
+    float hexLine = smoothstep(0.76, 0.94, hexBoundary);
     float edgeDistance = abs(threshold - uProgress);
     float fieldActive = 1.0 - smoothstep(0.990, 1.0, uProgress);
     visible = mix(1.0, visible, fieldActive);
-    float whiteOutline = hexLine * visible * fieldActive * 0.82;
+    float whiteOutline = hexLine * visible * fieldActive;
     color.rgb = mix(color.rgb, vec3(color.a), whiteOutline);
 
     // Approximately 1–2 px on typical application windows: a thin frontier only.

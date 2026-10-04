@@ -33,11 +33,11 @@ void main() {
     float cellReveal = smoothstep(threshold - 0.004, threshold + 0.004, uProgress);
     float hexBoundary = max(abs(local.y), abs(local.x) * 0.8660254 + abs(local.y) * 0.5);
     float visible = cellReveal * (1.0 - smoothstep(0.955, 1.0, hexBoundary));
-    float hexLine = smoothstep(0.90, 0.985, hexBoundary);
+    float hexLine = smoothstep(0.76, 0.94, hexBoundary);
     float edgeDistance = abs(threshold - uProgress);
     float fieldActive = 1.0 - smoothstep(0.990, 1.0, uProgress);
     visible = mix(1.0, visible, fieldActive);
-    float whiteOutline = hexLine * visible * fieldActive * 0.82;
+    float whiteOutline = hexLine * visible * fieldActive;
     color.rgb = mix(color.rgb, vec3(color.a), whiteOutline);
     float advancingEdge = 1.0 - smoothstep(0.0015, 0.005, edgeDistance);
     float glow = advancingEdge * visible * uGlowStrength * fieldActive;
