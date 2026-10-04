@@ -5,7 +5,7 @@
   <kcfgfile name=""/>
   <group name="">
     <entry name="Duration" type="UInt">
-      <default>900</default>
+      <default>1200</default>
     </entry>
     <entry name="CellSize" type="Double">
       <default>10.0</default>
