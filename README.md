@@ -10,6 +10,9 @@ The close path uses KWin's retained deleted-window animation support. Its first 
 frame is deliberately the unchanged window (`uProgress = 1`), so it hands off from the
 live window without a blank or pop-in frame before the mask contracts.
 
+The hex-cell distance field is adapted, under GPL-3.0-or-later, from the user-provided
+Burn My Windows Hexagon source. See `NOTICE.md`.
+
 It deliberately excludes desktop windows, panels and docks, menus, tooltips, other
 popups, screen-lock surfaces, unmanaged windows, and KWin outlines. It also opts into
 KWin's `toplevel-open-close-animation` exclusive category, so select this effect instead
