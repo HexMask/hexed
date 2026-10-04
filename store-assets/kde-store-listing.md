@@ -25,3 +25,9 @@ KWin, Plasma 6, window animation, hexagon, Etched, Wayland, green
 ## License
 
 GPL-3.0-or-later
+
+## Gallery preview
+
+Use `etched-hex-materialize-live-preview.gif`. It is a real capture of this
+installed effect on the Etched desktop; its closing half reverses the captured
+opening frames, matching the effect's reverse materialize behavior.
